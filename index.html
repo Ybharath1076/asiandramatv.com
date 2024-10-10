@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    <link rel="stylesheet" href="style.css">
+    <title>Asian Drama TV | Login & Registration</title>
+</head>
+<body>
+ <div class="wrapper">
+    <nav class="nav">
+        <div class="nav-logo">
+            <p>Asian Drama TV</p>
+        </div>
+        <div class="nav-menu" id="navMenu">
+            <ul>
+                <li><a href="#" class="link">Home</a></li>
+                <li><a href="drama.html" class="link">Drama's</a></li>
+                <li><a href="#" class="link">Services</a></li>
+                <li><a href="about.html" class="link">About</a></li>
+            </ul>
+        </div>
+        <div class="nav-button">
+            <button class="btn white-btn" id="loginBtn" onclick="login()">Sign In</button>
+            <button class="btn" id="registerBtn" onclick="register()">Sign Up</button>
+        </div>
+        <div class="nav-menu-btn">
+            <i class="bx bx-menu" onclick="myMenuFunction()"></i>
+        </div>
+    </nav>
+
+<!----------------------------- Form box ----------------------------------->    
+    <div class="form-box">
+        
+        <!------------------- login form -------------------------->
+
+        <div class="login-container" id="login">
+            <div class="top">
+                <span>Don't have an account? <a href="#" onclick="register()">Sign Up</a></span>
+                <header>Login</header>
+            </div>
+            <div class="input-box">
+                <input type="text" id="login-username" class="input-field" placeholder="Username or Email">
+                <i class="bx bx-user"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="login-password" class="input-field" placeholder="Password">
+                <i class="bx bx-lock-alt"></i>
+            </div>
+            <div class="input-box">
+                <input type="submit" class="submit" value="Sign In" onclick="validateLogin()">
+            </div>
+            <div class="two-col">
+                <div class="one">
+                    <input type="checkbox" id="login-check">
+                    <label for="login-check"> Remember Me</label>
+                </div>
+                <div class="two">
+                    <label><a href="#">Forgot password?</a></label>
+                </div>
+            </div>
+        </div>
+
+        <!------------------- registration form -------------------------->
+        <div class="register-container" id="register">
+            <div class="top">
+                <span>Have an account? <a href="#" onclick="login()">Login</a></span>
+                <header>Sign Up</header>
+            </div>
+            <div class="two-forms">
+                <div class="input-box">
+                    <input type="text" id="register-firstname" class="input-field" placeholder="Firstname">
+                    <i class="bx bx-user"></i>
+                </div>
+                <div class="input-box">
+                    <input type="text" id="register-lastname" class="input-field" placeholder="Lastname">
+                    <i class="bx bx-user"></i>
+                </div>
+            </div>
+            <div class="input-box">
+                <input type="text" id="register-email" class="input-field" placeholder="Email">
+                <i class="bx bx-envelope"></i>
+            </div>
+            <div class="input-box">
+                <input type="password" id="register-password" class="input-field" placeholder="Password">
+                <i class="bx bx-lock-alt"></i>
+            </div>
+            <div class="input-box">
+                <input type="submit" class="submit" value="Register" onclick="registerUser()">
+            </div>
+            <div class="two-col">
+                <div class="one">
+                    <input type="checkbox" id="register-check">
+                    <label for="register-check"> Remember Me</label>
+                </div>
+                <div class="two">
+                    <label><a href="#">Terms & conditions</a></label>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>   
+
+<script>
+   function myMenuFunction() {
+    var i = document.getElementById("navMenu");
+
+    if(i.className === "nav-menu") {
+        i.className += " responsive";
+    } else {
+        i.className = "nav-menu";
+    }
+   }
+
+    // Mock "database" for users (an array to hold user data)
+    let users = [
+        {
+            firstname: "Admin",
+            lastname: "main",
+            email: "adminmain@email.com",
+            password: "admin1"
+        },
+        {
+            firstname: "Admin",
+            lastname: "sub",
+            email: "adminsub@email.com",
+            password: "admin2"
+        },
+        {
+            firstname: "Admin",
+            lastname: "last",
+            email: "adminlast@email.com",
+            password: "admin3"
+        }
+    ];
+
+    // Register a new user
+    function registerUser() {
+        // Get input values
+        const firstname = document.getElementById('register-firstname').value;
+        const lastname = document.getElementById('register-lastname').value;
+        const email = document.getElementById('register-email').value;
+        const password = document.getElementById('register-password').value;
+
+        // Check if all fields are filled
+        if (firstname && lastname && email && password) {
+            // Check if the email is already registered
+            const existingUser = users.find(user => user.email === email);
+            if (existingUser) {
+                alert("This email is already registered.");
+            } else {
+                // Add user to the "database"
+                users.push({
+                    firstname,
+                    lastname,
+                    email,
+                    password
+                });
+                alert("Registration successful! You can now log in.");
+                login();  // Switch to login form after registration
+            }
+        } else {
+            alert("Please fill in all the fields.");
+        }
+    }
+
+    // Validate login
+    function validateLogin() {
+        // Get input values
+        const usernameOrEmail = document.getElementById('login-username').value;
+        const password = document.getElementById('login-password').value;
+
+        // Find the user in the "database"
+        const user = users.find(user => (user.email === usernameOrEmail || user.firstname === usernameOrEmail) && user.password === password);
+
+        if (user) {
+            alert(`Welcome, ${user.firstname}! You are now logged in.`);
+            window.location.href = "home.html";
+        } else {
+            alert("Incorrect username/email or password.");
+        }
+    }
+
+    // Switching between login and register forms
+    var a = document.getElementById("loginBtn");
+    var b = document.getElementById("registerBtn");
+    var x = document.getElementById("login");
+    var y = document.getElementById("register");
+
+    function login() {
+        x.style.left = "4px";
+        y.style.right = "-520px";
+        a.className += " white-btn";
+        b.className = "btn";
+        x.style.opacity = 1;
+        y.style.opacity = 0;
+    }
+
+    function register() {
+        x.style.left = "-510px";
+        y.style.right = "5px";
+        a.className = "btn";
+        b.className += " white-btn";
+        x.style.opacity = 0;
+        y.style.opacity = 1;
+    }
+</script>
+
+</body>
+</html>
